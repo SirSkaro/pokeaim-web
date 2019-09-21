@@ -1,0 +1,19 @@
+{
+  "name": "pokeaim-web",
+  "version": "1.0.0",
+  "description": "Website for PokeaimMD",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirSkaro/pokeaim-web.git"
+  },
+  "author": "Benjamin Churchill <bencbchurchill@gmail.com>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/SirSkaro/pokeaim-web/issues"
+  },
+  "homepage": "https://github.com/SirSkaro/pokeaim-web#readme"
+}
