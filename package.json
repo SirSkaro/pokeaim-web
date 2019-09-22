@@ -1,19 +1,33 @@
 {
   "name": "pokeaim-web",
-  "version": "1.0.0",
-  "description": "Website for PokeaimMD",
-  "main": "index.js",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SirSkaro/pokeaim-web.git"
+  "dependencies": {
+    "core-js": "^2.6.5",
+    "discord.js": "^11.5.1",
+    "vue": "^2.6.10",
+    "vuex": "^3.0.1"
   },
-  "author": "Benjamin Churchill <bencbchurchill@gmail.com>",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/SirSkaro/pokeaim-web/issues"
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-unit-mocha": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "chai": "^4.1.2",
+    "vue-template-compiler": "^2.6.10"
   },
-  "homepage": "https://github.com/SirSkaro/pokeaim-web#readme"
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }
