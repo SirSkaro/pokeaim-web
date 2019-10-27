@@ -15,7 +15,6 @@ export default {
     },
     computed: {
         badges: function() {
-            debugger
             let allBadges = this.$store.getters.getBadges
             return Object.values(allBadges)
         }

@@ -16,10 +16,10 @@ export default new Vuex.Store({
   },
   mutations: {
     setBadges: (state, badges) => {
+      state.badges = {}
       badges.forEach(badge => {
         state.badges[badge.id] = badge
       })
-      console.log(state)
     }
   },
   actions: {
