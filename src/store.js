@@ -1,16 +1,33 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    badges: {}
+  },
+  getters: {
+    getBadges: state => {
+      return state.badges
+    }
   },
   mutations: {
-
+    setBadges: (state, badges) => {
+      badges.forEach(badge => {
+        state.badges[badge.id] = badge
+      })
+      console.log(state)
+    }
   },
   actions: {
-
+    fetchBadges ({ commit })  {
+      axios.get('http://localhost:9000/api/badge')
+      .then(response => {
+        commit('setBadges', response.data)
+      })
+    }
   }
 })
