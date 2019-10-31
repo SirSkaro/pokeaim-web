@@ -1,15 +1,17 @@
 <template>
     <div>
         <h1>Badges</h1>
-        <div v-for="badge in badges" v-bind:key="badge.id">
-        {{ badge.title }} <br/>
-        </div>
+        <BadgeCard v-for="badge in badges" v-bind:key="badge.id" v-bind:id="badge.id"/>
     </div>
 </template>
 
 <script>
+import BadgeCard from './BadgeCard.vue'
 export default {
     name: 'BadgeList',
+    components: {
+        BadgeCard
+    },
     created: function() {
         this.$store.dispatch('fetchBadges')
     },

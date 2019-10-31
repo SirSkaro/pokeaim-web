@@ -12,7 +12,10 @@ export default new Vuex.Store({
   getters: {
     getBadges: state => {
       return state.badges
-    }
+    },
+    getBadge: state => id => {
+      return state.badges[id]
+    } 
   },
   mutations: {
     setBadges: (state, badges) => {
