@@ -6,14 +6,18 @@
             <b-col sm="2" class="content"> {{ badge.title }} </b-col>
             <b-col sm="4" class="content"> {{ badge.description }} </b-col> 
             <b-col sm="1" class="content"> {{ threshold }} points </b-col>
-            <b-col sm="2" class="content actions"> button </b-col>
+            <b-col sm="2" class="content actions"> 
+                <b-button variant="primary"> <v-icon name="edit"/> </b-button> 
+                <b-button variant="info"> <v-icon name="eye"/> </b-button>
+                <b-button variant="danger"> <v-icon name="trash"/> </b-button> 
+            </b-col>
             <b-col sm="1"> </b-col>
         </b-row>
     </b-container>
 </template>
 
 <script>
-import { BContainer, BRow, BCol } from 'bootstrap-vue'
+import { BContainer, BRow, BCol, BButton } from 'bootstrap-vue'
 export default {
     name: 'BadgeCard',
     props: {
@@ -22,7 +26,8 @@ export default {
     components: {
         BContainer,
         BRow,
-        BCol
+        BCol,
+        BButton
     },
     computed: {
         badge: function() {
@@ -48,12 +53,12 @@ export default {
     padding: 4px;
 }
 .content {
-    background: rgb(156, 155, 156); 
+    background:#B5E9F6;
     border-style: solid;
     border-width: 0px 0px 1px 0px;
 }
 .content:hover {
-    background: rgb(209, 206, 206);
+    background: #FAB4B2;
 }
 .actions {
     border-radius: 0px 25px 25px 0px;

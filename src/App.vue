@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" class="logo" src="./assets/logo.png">
     <BadgeList/>
   </div>
 </template>
@@ -22,7 +22,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: black;
+  height: 100vh;
+}
+.logo {
+  margin: 60px;
 }
 </style>
