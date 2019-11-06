@@ -27,7 +27,7 @@ export default new Vuex.Store({
   },
   actions: {
     fetchBadges ({ commit })  {
-      axios.get('http://localhost:9000/api/badge')
+      axios.get(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge')
       .then(response => {
         commit('setBadges', response.data)
       })
