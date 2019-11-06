@@ -1,17 +1,17 @@
 <template>
     <b-container fluid>
         <b-row>
-            <b-col sm="1"> </b-col>
+            <b-col sm="2"> </b-col>
             <b-col sm="1" class="icon"> <img :src="badge.imageUri" height="50" width="50"/> </b-col>
             <b-col sm="2" class="content"> {{ badge.title }} </b-col>
-            <b-col sm="4" class="content"> {{ badge.description }} </b-col> 
-            <b-col sm="1" class="content"> {{ threshold }} points </b-col>
-            <b-col sm="2" class="content actions"> 
+            <b-col sm="1" class="content"> {{ threshold }} </b-col>
+            <b-col sm="3" class="content"> {{ badge.description }} </b-col> 
+            <b-col sm="1" class="content actions"> 
                 <b-button variant="primary"> <v-icon name="edit"/> </b-button> 
                 <b-button variant="info"> <v-icon name="eye"/> </b-button>
                 <b-button variant="danger"> <v-icon name="trash"/> </b-button> 
             </b-col>
-            <b-col sm="1"> </b-col>
+            <b-col sm="2"> </b-col>
         </b-row>
     </b-container>
 </template>
@@ -35,7 +35,8 @@ export default {
         },
         threshold: function() {
             if(this.badge.canBeEarnedWithPoints) {
-                return this.badge.pointThreshold
+                return this.badge.pointThreshold + 
+                    (this.badge.pointThreshold > 1 ? ' points' : ' point')
             } else {
                 return 'Reward Only'
             }
