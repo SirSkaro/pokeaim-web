@@ -1,16 +1,22 @@
 <template>
     <div>
         <h1>Badges</h1>
+        <b-button variant="success" size="lg"> <v-icon name="plus"/> New Badge </b-button> 
         <BadgeCard v-for="badge in badges" v-bind:key="badge.id" v-bind:id="badge.id"/>
     </div>
 </template>
 
 <script>
 import BadgeCard from './BadgeCard.vue'
+import { BContainer, BRow, BCol, BButton } from 'bootstrap-vue'
 export default {
     name: 'BadgeList',
     components: {
-        BadgeCard
+        BContainer,
+        BRow,
+        BCol,
+        BadgeCard,
+        BButton
     },
     created: function() {
         this.$store.dispatch('fetchBadges')

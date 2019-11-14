@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <BadgeList/>
+    <router-link to="/dashboard">Go to Badges</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
