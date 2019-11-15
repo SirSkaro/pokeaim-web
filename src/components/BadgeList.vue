@@ -56,16 +56,16 @@ h1 {
   border-color: aqua;
 }
 .card-container-side {
-    background-color: #FAB4B2;
+    background-color: black;
 }
 .card-container-top {
-    background-color: #FAB4B2;
+    background-color: black;
     border-radius: 25px 25px 0px 0px;
     padding: 5px;
 }
 .card-container-bottom {
     height: 25px;
-    background-color: #FAB4B2;
+    background-color: black;
     border-radius: 0px 0px 25px 25px;
 }
 .card-container {

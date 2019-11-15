@@ -47,7 +47,10 @@ export default {
 
 .icon {
     border-radius: 25px 0px 0px 25px;
-    background: rgb(34, 33, 34);
+    border-style: solid;
+    border-width: 1px 0px 1px 1px;
+    border-color: #FAB4B2;
+    background: rgb(34, 34, 34);
     float: left;
     padding: 4px;
 }
@@ -57,7 +60,7 @@ export default {
     border-width: 0px 0px 1px 0px;
 }
 .content:hover {
-    background: #FAB4B2;
+    background: rgb(181, 215, 246);
 }
 .actions {
     border-radius: 0px 25px 25px 0px;
