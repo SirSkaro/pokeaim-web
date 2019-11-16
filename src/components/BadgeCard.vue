@@ -8,7 +8,6 @@
             <b-col sm="2" class="content actions"> 
                 <b-button variant="primary"> <v-icon name="edit"/> </b-button> 
                 <b-button variant="info"> <v-icon name="eye"/> </b-button>
-                <b-button variant="danger"> <v-icon name="trash"/> </b-button> 
             </b-col>
         </b-row>
     </b-container>

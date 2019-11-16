@@ -1,19 +1,17 @@
 <template>
     <h1>Badge Page</h1>
+
 </template>
 
 <script>
-import { BContainer, BRow, BCol, BButton } from 'bootstrap-vue'
+import { BForm } from 'bootstrap-vue'
 export default {
     name: 'Badge',
     props: {
         id: Number
     },
     components: {
-        BContainer,
-        BRow,
-        BCol,
-        BButton
+        BForm
     },
     computed: {
         badge: function() {
