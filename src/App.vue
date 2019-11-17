@@ -7,13 +7,9 @@
 </template>
 
 <script>
-import BadgeList from './components/BadgeList.vue'
 
 export default {
   name: 'app',
-  components: {
-    BadgeList
-  }
 }
 </script>
 
@@ -28,5 +24,8 @@ export default {
 }
 .logo {
   margin: 60px;
+}
+h1 {
+  color: #FAB4B2;
 }
 </style>

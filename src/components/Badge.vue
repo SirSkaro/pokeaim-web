@@ -1,41 +1,49 @@
 <template>
-    <b-container class="content">
+    <div>
         <h1>Badge Editor</h1>
-        <b-img thumbnail :src="badge.imageUri" fluid alt="(Badge Icon Here)"
-            width="200" height="200">
-        </b-img>
-        <b-form>
-            <b-form-group id="1" label="Title:" label-for="badge-title" label-cols-sm="4">
-                <b-form-input id="badge-title" v-model="badge.title"
-                    required placeholder="Enter badge title">
-                </b-form-input>
-            </b-form-group>
-            <b-form-group id="5" label="Icon URL:" label-for="badge-icon" label-cols-sm="4">
-                <b-form-input id="badge-icon" v-model="badge.imageUri" type="url"
-                    required placeholder="Enter URL to badge icon">
-                </b-form-input>
-            </b-form-group>
-            <b-form-group id="2" label="Description:" label-for="badge-description" label-cols-sm="4">
-                <b-form-textarea required id="badge-description" v-model="badge.description"
-                    placeholder="Enter badge description">
-                </b-form-textarea>
-            </b-form-group>
-            <b-form-group id="3" label="Rewardability:" label-for="badge-rewardablity" label-cols-sm="4">
-                <b-form-checkbox id="earnable"
-                    v-model="badge.canBeEarnedWithPoints" 
-                    :unchecked-value="false" :value="true">
-                    Earnable via points
-                </b-form-checkbox>
-                <b-form-input v-if="badge.canBeEarnedWithPoints"
-                    id="badge-threshold" v-model="badge.threshold"
-                    type="number" required placeholder="Enter point threshold to earn badge">
-                </b-form-input>
-            </b-form-group>
-             <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="4">
-                <b-form-select id="discord-role" v-model="badge.discordRoleId" :options="options"></b-form-select>
-            </b-form-group>
-        </b-form>
-    </b-container>
+        <b-container class="content">
+            <b-row align-v="center">
+                <b-col sm="8">
+                    <b-form>
+                        <b-form-group id="1" label="Title:" label-for="badge-title" label-cols-sm="2">
+                            <b-form-input id="badge-title" v-model="badge.title"
+                                required placeholder="Enter badge title">
+                            </b-form-input>
+                        </b-form-group>
+                        <b-form-group id="5" label="Icon URL:" label-for="badge-icon" label-cols-sm="2">
+                            <b-form-input id="badge-icon" v-model="badge.imageUri" type="url"
+                                required placeholder="Enter URL to badge icon">
+                            </b-form-input>
+                        </b-form-group>
+                        <b-form-group id="2" label="Description:" label-for="badge-description" label-cols-sm="2">
+                            <b-form-textarea required id="badge-description" v-model="badge.description"
+                                placeholder="Enter badge description">
+                            </b-form-textarea>
+                        </b-form-group>
+                        <b-form-group id="3" label="Rewardability:" label-for="badge-rewardablity" label-cols-sm="2">
+                            <b-form-checkbox id="earnable"
+                                v-model="badge.canBeEarnedWithPoints" 
+                                :unchecked-value="false" :value="true">
+                                Earnable via points
+                            </b-form-checkbox>
+                            <b-form-input v-if="badge.canBeEarnedWithPoints"
+                                id="badge-threshold" v-model="badge.threshold"
+                                type="number" required placeholder="Enter point threshold to earn badge">
+                            </b-form-input>
+                        </b-form-group>
+                        <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="2">
+                            <b-form-select id="discord-role" v-model="badge.discordRoleId" :options="options"></b-form-select>
+                        </b-form-group>
+                    </b-form>
+                </b-col>
+                <b-col class="icon" sm="4" id="icon-column"> 
+                    <b-img :src="badgeIcon" fluid alt="No image - check URL"
+                        width="200" height="200">
+                    </b-img>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 <script>
@@ -59,13 +67,9 @@ export default {
         BContainer, BRow, BCol, BImage
     },
     computed: {
-        threshold: function() {
-            if(this.badge.canBeEarnedWithPoints) {
-                return this.badge.pointThreshold + 
-                    (this.badge.pointThreshold > 1 ? ' points' : ' point')
-            } else {
-                return 'Reward Only'
-            }
+        badgeIcon: function() {
+            return this.badge.imageUri ? this.badge.imageUri 
+                : "https://icon-library.net/images/placeholder-image-icon/placeholder-image-icon-2.jpg"
         }
     }
 }
@@ -74,10 +78,7 @@ export default {
 <style scoped>
 
 .icon {
-    border-radius: 25px 0px 0px 25px;
     background: rgb(34, 33, 34);
-    float: left;
-    padding: 4px;
 }
 .content {
     background:#B5E9F6;
