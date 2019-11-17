@@ -1,10 +1,18 @@
 <template>
-    <b-container>
+    <b-container class="content">
         <h1>Badge Editor</h1>
+        <b-img thumbnail :src="badge.imageUri" fluid alt="(Badge Icon Here)"
+            width="200" height="200">
+        </b-img>
         <b-form>
             <b-form-group id="1" label="Title:" label-for="badge-title" label-cols-sm="4">
                 <b-form-input id="badge-title" v-model="badge.title"
                     required placeholder="Enter badge title">
+                </b-form-input>
+            </b-form-group>
+            <b-form-group id="5" label="Icon URL:" label-for="badge-icon" label-cols-sm="4">
+                <b-form-input id="badge-icon" v-model="badge.imageUri" type="url"
+                    required placeholder="Enter URL to badge icon">
                 </b-form-input>
             </b-form-group>
             <b-form-group id="2" label="Description:" label-for="badge-description" label-cols-sm="4">
@@ -75,9 +83,6 @@ export default {
     background:#B5E9F6;
     border-style: solid;
     border-width: 0px 0px 1px 0px;
-}
-.content:hover {
-    background: #FAB4B2;
 }
 .actions {
     border-radius: 0px 25px 25px 0px;
