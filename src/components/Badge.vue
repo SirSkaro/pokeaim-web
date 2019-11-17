@@ -1,7 +1,10 @@
 <template>
     <div>
         <h1>Badge Editor</h1>
-        <b-container class="content">
+        <b-container class="form-container">
+            <b-row class="form-top">
+                <b-col></b-col>
+            </b-row>
             <b-row align-v="center">
                 <b-col sm="8">
                     <b-form>
@@ -42,6 +45,9 @@
                     </b-img>
                 </b-col>
             </b-row>
+            <b-row class="form-bottom">
+                <b-col></b-col>
+            </b-row>
         </b-container>
     </div>
 </template>
@@ -78,15 +84,20 @@ export default {
 <style scoped>
 
 .icon {
-    background: rgb(34, 33, 34);
-}
-.content {
-    background:#B5E9F6;
+    border-radius: 25px;
     border-style: solid;
-    border-width: 0px 0px 1px 0px;
+    background: rgb(34, 34, 34);
+    padding: 4px;
 }
-.actions {
-    border-radius: 0px 25px 25px 0px;
+.form-container {
+    border-radius: 25px 25px 25px 25px;
+    background:#B5E9F6;
+}
+.form-top {
+    padding: 10px;
+}
+.form-bottom {
+    height: 5px;
 }
 
 </style>

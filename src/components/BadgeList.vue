@@ -47,14 +47,6 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  color: #FAB4B2;
-}
-.test {
-  border-style: solid;
-  border-width: 1px;
-  border-color: aqua;
-}
 .card-container-side {
     background-color: black;
 }
