@@ -24,8 +24,7 @@
                             </b-form-textarea>
                         </b-form-group>
                         <b-form-group id="3" label="Rewardability:" label-for="badge-rewardablity" label-cols-sm="2">
-                            <b-form-checkbox id="earnable"
-                                v-model="badge.canBeEarnedWithPoints" 
+                            <b-form-checkbox id="earnable" v-model="badge.canBeEarnedWithPoints" 
                                 :unchecked-value="false" :value="true">
                                 Earnable via points
                             </b-form-checkbox>
@@ -35,7 +34,10 @@
                             </b-form-input>
                         </b-form-group>
                         <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="2">
-                            <b-form-select id="discord-role" v-model="badge.discordRoleId" :options="options"></b-form-select>
+                            <b-form-select id="discord-role" v-model="badge.discordRoleId">
+                                <option :value="undefined">Select a Discord Role to associate with this badge</option>
+                                <option v-for="role in unassignedRoles" v-bind:key="role.id"> {{role.name}} </option>
+                            </b-form-select>
                         </b-form-group>
                     </b-form>
                 </b-col>
@@ -60,8 +62,7 @@ export default {
     name: 'Badge',
     data() {
         return {
-            badge: {},
-            options: ['foo', 'bar']
+            badge: {}
         }
     },
     props: {
@@ -76,6 +77,9 @@ export default {
         badgeIcon: function() {
             return this.badge.imageUri ? this.badge.imageUri 
                 : "https://icon-library.net/images/placeholder-image-icon/placeholder-image-icon-2.jpg"
+        },
+        unassignedRoles: function() {
+            return this.$store.getters.getUnassignedRoles
         }
     }
 }
@@ -85,9 +89,9 @@ export default {
 
 .icon {
     border-radius: 25px;
-    border-style: solid;
     background: rgb(34, 34, 34);
     padding: 4px;
+    color: #FAB4B2;
 }
 .form-container {
     border-radius: 25px 25px 25px 25px;

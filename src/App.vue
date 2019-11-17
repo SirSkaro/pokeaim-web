@@ -10,6 +10,9 @@
 
 export default {
   name: 'app',
+  created: function() {
+      this.$store.dispatch('createDiscordClient')
+  }
 }
 </script>
 
