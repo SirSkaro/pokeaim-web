@@ -46,9 +46,13 @@
                                 Earnable via points
                             </b-form-checkbox>
                             <b-form-input v-if="badge.canBeEarnedWithPoints"
-                                id="badge-threshold" v-model="badge.threshold"
+                                id="badge-threshold" v-model="$v.badge.threshold.$model"
+                                :state="$v.badge.threshold.$dirty ? !$v.badge.threshold.$error : null"
                                 type="number" required placeholder="Enter point threshold to earn badge">
                             </b-form-input>
+                            <b-form-invalid-feedback id="badge-description-feedback">
+                                Threshold must be between 1 and 2,147,483,647
+                            </b-form-invalid-feedback>
                         </b-form-group>
 
                         <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="2">
@@ -81,7 +85,7 @@
 import { validationMixin } from 'vuelidate'
 import { BForm, BFormInput, BFormGroup, BFormCheckbox, BFormSelect } from 'bootstrap-vue'
 import { BContainer, BRow, BCol, BButton } from 'bootstrap-vue'
-import { required, minLength, maxLength, url } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, url, requiredIf, between } from 'vuelidate/lib/validators'
 export default {
     name: 'Badge',
     mixins: [validationMixin],
@@ -114,6 +118,12 @@ export default {
                 required,
                 minLength: minLength(10),
                 maxLength: maxLength(2048)
+            },
+            threshold: {
+                between: between(1, Math.pow(2,32) - 1),
+                required: requiredIf(function(badge) {
+                    return badge.canBeEarnedWithPoints
+                })
             }
         },
         selectedRole: {
