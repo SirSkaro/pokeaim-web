@@ -9,10 +9,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
+Vue.use(Vuelidate)
 Vue.component('v-icon', Icon)
 
 const router = new VueRouter({
