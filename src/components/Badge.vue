@@ -13,6 +13,9 @@
                                 :state="$v.badge.title.$dirty ? !$v.badge.title.$error : null"
                                 placeholder="Enter badge title">
                             </b-form-input>
+                            <b-form-invalid-feedback id="badge-title-feedback">
+                                Badge title must be at least 5 characters
+                            </b-form-invalid-feedback>
                         </b-form-group>
 
                         <b-form-group id="5" label="Icon URL:" label-for="badge-icon" label-cols-sm="2">
@@ -21,12 +24,20 @@
                                 :state="$v.badge.imageUri.$dirty ? !$v.badge.imageUri.$error : null"
                                 placeholder="Enter URL to badge icon">
                             </b-form-input>
+                            <b-form-invalid-feedback id="badge-icon-feedback">
+                                Please specify a valid URL
+                            </b-form-invalid-feedback>
                         </b-form-group>
 
                         <b-form-group id="2" label="Description:" label-for="badge-description" label-cols-sm="2">
-                            <b-form-textarea required id="badge-description" v-model="badge.description"
+                            <b-form-textarea required id="badge-description" 
+                                v-model="$v.badge.description.$model"
+                                :state="$v.badge.description.$dirty ? !$v.badge.description.$error : null"
                                 placeholder="Enter badge description">
                             </b-form-textarea>
+                            <b-form-invalid-feedback id="badge-description-feedback">
+                                Badge description must be between 10 and 2048 characters
+                            </b-form-invalid-feedback>
                         </b-form-group>
 
                         <b-form-group id="3" label="Rewardability:" label-for="badge-rewardablity" label-cols-sm="2">
@@ -41,10 +52,14 @@
                         </b-form-group>
 
                         <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="2">
-                            <b-form-select id="discord-role" v-model="selectedRole">
+                            <b-form-select id="discord-role" v-model="$v.selectedRole.$model"
+                                :state="$v.selectedRole.$dirty ? !$v.selectedRole.$error : null">
                                 <option :value="{}">Select a Discord Role to associate with this badge</option>
                                 <option v-for="role in unassignedRoles" v-bind:key="role.id"> {{role.name}} </option>
                             </b-form-select>
+                            <b-form-invalid-feedback id="badge-description-feedback">
+                                Please select a Discord Role
+                            </b-form-invalid-feedback>
                         </b-form-group>
 
                     </b-form>
@@ -66,7 +81,7 @@
 import { validationMixin } from 'vuelidate'
 import { BForm, BFormInput, BFormGroup, BFormCheckbox, BFormSelect } from 'bootstrap-vue'
 import { BContainer, BRow, BCol, BButton } from 'bootstrap-vue'
-import { required, minLength, url } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, url } from 'vuelidate/lib/validators'
 export default {
     name: 'Badge',
     mixins: [validationMixin],
@@ -94,6 +109,11 @@ export default {
             imageUri: {
                 required,
                 url
+            },
+            description: {
+                required,
+                minLength: minLength(10),
+                maxLength: maxLength(2048)
             }
         },
         selectedRole: {
