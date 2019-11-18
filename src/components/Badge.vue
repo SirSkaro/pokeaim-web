@@ -42,7 +42,8 @@
 
                         <b-form-group id="3" label="Rewardability:" label-for="badge-rewardablity" label-cols-sm="2">
                             <b-form-checkbox id="earnable" v-model="badge.canBeEarnedWithPoints" 
-                                :unchecked-value="false" :value="true">
+                                :unchecked-value="false" :value="true"
+                                @input="resetThreshold">
                                 Earnable via points
                             </b-form-checkbox>
                             <b-form-input v-if="badge.canBeEarnedWithPoints"
@@ -126,7 +127,6 @@ export default {
                 },
                 threshold: {
                     requiredIf: requiredIf(function() {
-                        console.log(this.badge.canBeEarnedWithPoints)
                         return this.badge.canBeEarnedWithPoints
                     }),
                     between: this.badge.canBeEarnedWithPoints ? between(1, Math.pow(2,32) - 1)
@@ -155,6 +155,13 @@ export default {
         unassignedRoles: function() {
             return this.$store.getters.getUnassignedRoles
         }
+    },
+    methods: {
+        resetThreshold: function(checked) {
+            if(!checked) {
+                this.badge.threshold = 0
+            }
+        }
     }
 }
 </script>
@@ -175,6 +182,7 @@ export default {
     padding: 10px;
 }
 .form-bottom {
+    padding: 0px 0px 10px 0px;
     height: auto;
 }
 
