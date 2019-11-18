@@ -48,7 +48,7 @@
                             <b-form-input v-if="badge.canBeEarnedWithPoints"
                                 id="badge-threshold" v-model="$v.badge.threshold.$model"
                                 :state="$v.badge.threshold.$dirty ? !$v.badge.threshold.$error : null"
-                                type="number" required placeholder="Enter point threshold to earn badge">
+                                type="number" placeholder="Enter point threshold to earn badge">
                             </b-form-input>
                             <b-form-invalid-feedback id="badge-description-feedback">
                                 Threshold must be between 1 and 2,147,483,647
@@ -76,6 +76,10 @@
             </b-row>
             <b-row class="form-bottom">
                 <b-col></b-col>
+                <b-col sm="4" align-self="end">
+                    <b-button variant="success" size="md" :disabled="$v.$invalid"> <v-icon name="save"/> Save </b-button>
+                    <b-button variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
+                </b-col>
             </b-row>
         </b-container>
     </div>
@@ -95,7 +99,7 @@ export default {
                 title: null,
                 imageUri: null,
                 description: null,
-                canBeEarnedWithPoints: null,
+                canBeEarnedWithPoints: false,
                 threshold: 0,
             },
             selectedRole: {}
@@ -104,30 +108,34 @@ export default {
     props: {
         id: Number
     },
-    validations: {
-        badge: {
-            title: {
-                required,
-                minLength: minLength(5)
+    validations() {
+        return {
+            badge: {
+                title: {
+                    required,
+                    minLength: minLength(5)
+                },
+                imageUri: {
+                    required,
+                    url
+                },
+                description: {
+                    required,
+                    minLength: minLength(10),
+                    maxLength: maxLength(2048)
+                },
+                threshold: {
+                    requiredIf: requiredIf(function() {
+                        console.log(this.badge.canBeEarnedWithPoints)
+                        return this.badge.canBeEarnedWithPoints
+                    }),
+                    between: this.badge.canBeEarnedWithPoints ? between(1, Math.pow(2,32) - 1)
+                        : between(0, 0)
+                }
             },
-            imageUri: {
-                required,
-                url
-            },
-            description: {
-                required,
-                minLength: minLength(10),
-                maxLength: maxLength(2048)
-            },
-            threshold: {
-                between: between(1, Math.pow(2,32) - 1),
-                required: requiredIf(function(badge) {
-                    return badge.canBeEarnedWithPoints
-                })
+            selectedRole: {
+                required
             }
-        },
-        selectedRole: {
-            required
         }
     },
     components: {
@@ -167,7 +175,7 @@ export default {
     padding: 10px;
 }
 .form-bottom {
-    height: 5px;
+    height: auto;
 }
 
 </style>
