@@ -25,9 +25,10 @@ export default new Vuex.Store({
       let result = []
 
       allRoles.forEach( role => {
-        let roleInUse = false;
-        for(let badge in state.badges) {
-          if(role.id == badge.discordRoleId) {
+        let roleInUse = false
+        for(let id in state.badges) {
+          let badge = state.badges[id]
+          if(role.id === badge.discordRoleId) {
             roleInUse = true
             break
           }
@@ -42,16 +43,17 @@ export default new Vuex.Store({
   },
   mutations: {
     setDiscordClient: (state, client) => {
-      state.discordClient = client
+      Vue.set(state, 'discordClient', client)
+      //state.discordClient = client
     },
     setBadges: (state, badges) => {
       state.badges = {}
       badges.forEach(badge => {
-        state.badges[badge.id] = badge
+        Vue.set(state.badges, badge.id, badge)
       })
     },
     setBadge: (state, badge) => {
-      state.badges[badge.id] = badge
+      Vue.set(state.badges, badge.id, badge)
     }
   },
   actions: {
