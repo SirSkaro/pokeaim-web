@@ -1,17 +1,20 @@
 <template>
   <div id="app">
+    <NavBar/>
     <img alt="Vue logo" class="logo" src="./assets/logo.png">
-    <BadgeList/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import BadgeList from './components/BadgeList.vue'
-
+import NavBar from './components/NavBar.vue'
 export default {
   name: 'app',
   components: {
-    BadgeList
+    NavBar
+  },
+  created: function() {
+      this.$store.dispatch('createDiscordClient')
   }
 }
 </script>
@@ -26,6 +29,10 @@ export default {
   height: 100vh;
 }
 .logo {
-  margin: 60px;
+  margin: 10px;
 }
+h1 {
+  color: #FAB4B2;
+}
+
 </style>
