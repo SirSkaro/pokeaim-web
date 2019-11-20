@@ -78,7 +78,7 @@
                 <b-row class="form-bottom">
                     <b-col sm="4">
                         <b-button type="submit" variant="success" size="md" :disabled="$v.$invalid"> <v-icon name="save"/> Save </b-button>
-                        <b-button variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
+                        <b-button to="dashboard" variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
                     </b-col>
                 </b-row>
             </b-container>
@@ -171,7 +171,7 @@ export default {
             this.badge.discordRoleId = this.selectedRole.id
             this.$store.dispatch('addBadge', this.badge)
             this.$router.push('dashboard')
-      }
+        }
     }
 }
 </script>
