@@ -5,7 +5,7 @@
             <b-row class="card-container-top">
                 <b-col></b-col>
                 <b-col sm="2" align-self="end">
-                    <b-button to="badge" variant="success" size="lg"> <v-icon name="plus"/> New Badge </b-button> 
+                    <b-button to="badge" variant="success" size="md"> <v-icon name="plus"/> New Badge </b-button> 
                 </b-col>
             </b-row>
             <b-row>

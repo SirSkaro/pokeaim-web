@@ -20,8 +20,7 @@ Vue.component('v-icon', Icon)
 const router = new VueRouter({
   routes: [
     {path: '/badge', component: Badge},
-    {path: '/dashboard', component: BadgeList},
-    {path: '/', component: App}
+    {path: '/dashboard', component: BadgeList}
   ]
 })
 
