@@ -26,7 +26,7 @@ export default new Vuex.Store({
 
       allRoles.forEach( role => {
         let roleInUse = false;
-        for(badge in state.badges) {
+        for(let badge in state.badges) {
           if(role.id == badge.discordRoleId) {
             roleInUse = true
             break
@@ -49,6 +49,9 @@ export default new Vuex.Store({
       badges.forEach(badge => {
         state.badges[badge.id] = badge
       })
+    },
+    setBadge: (state, badge) => {
+      state.badges[badge.id] = badge
     }
   },
   actions: {
@@ -66,6 +69,12 @@ export default new Vuex.Store({
       axios.get(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge')
       .then(response => {
         commit('setBadges', response.data)
+      })
+    },
+    addBadge({ commit }, badge ) {
+      axios.post(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge', badge)
+      .then(response => {
+        commit('setBadge', response.data)
       })
     }
   }

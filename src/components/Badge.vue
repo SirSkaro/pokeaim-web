@@ -1,13 +1,14 @@
 <template>
     <div>
         <h1>Badge Editor</h1>
-        <b-container class="form-container">
-            <b-row class="form-top">
-                <b-col></b-col>
-            </b-row>
-            <b-row align-v="center">
-                <b-col sm="8">
-                    <b-form>
+        <b-form @submit.stop.prevent="submitBadge">
+            <b-container class="form-container">
+                <b-row class="form-top">
+                    <b-col></b-col>
+                </b-row>
+                <b-row align-v="center">
+                    <b-col sm="8">
+                        
                         <b-form-group id="1" label="Title:" label-for="badge-title" label-cols-sm="2">
                             <b-form-input id="badge-title" v-model="$v.badge.title.$model"
                                 :state="$v.badge.title.$dirty ? !$v.badge.title.$error : null"
@@ -47,8 +48,8 @@
                                 Earnable via points
                             </b-form-checkbox>
                             <b-form-input v-if="badge.canBeEarnedWithPoints"
-                                id="badge-threshold" v-model="$v.badge.threshold.$model"
-                                :state="$v.badge.threshold.$dirty ? !$v.badge.threshold.$error : null"
+                                id="badge-threshold" v-model="$v.badge.pointThreshold.$model"
+                                :state="$v.badge.pointThreshold.$dirty ? !$v.badge.pointThreshold.$error : null"
                                 type="number" placeholder="Enter point threshold to earn badge">
                             </b-form-input>
                             <b-form-invalid-feedback id="badge-description-feedback">
@@ -60,29 +61,28 @@
                             <b-form-select id="discord-role" v-model="$v.selectedRole.$model"
                                 :state="$v.selectedRole.$dirty ? !$v.selectedRole.$error : null">
                                 <option :value="{}">Select a Discord Role to associate with this badge</option>
-                                <option v-for="role in unassignedRoles" v-bind:key="role.id"> {{role.name}} </option>
+                                <option :value="role" v-for="role in unassignedRoles" v-bind:key="role.id"> {{role.name}} </option>
                             </b-form-select>
                             <b-form-invalid-feedback id="badge-description-feedback">
                                 Please select a Discord Role
                             </b-form-invalid-feedback>
                         </b-form-group>
-
-                    </b-form>
-                </b-col>
-                <b-col class="icon" sm="4" id="icon-column"> 
-                    <b-img :src="badgeIcon" fluid alt="Invalid image reference - check URL"
-                        width="200" height="200">
-                    </b-img>
-                </b-col>
-            </b-row>
-            <b-row class="form-bottom">
-                <b-col></b-col>
-                <b-col sm="4" align-self="end">
-                    <b-button variant="success" size="md" :disabled="$v.$invalid"> <v-icon name="save"/> Save </b-button>
-                    <b-button variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
-                </b-col>
-            </b-row>
-        </b-container>
+                        
+                    </b-col>
+                    <b-col class="icon" sm="4" id="icon-column"> 
+                        <b-img :src="badgeIcon" fluid alt="Invalid image reference - check URL"
+                            width="200" height="200">
+                        </b-img>
+                    </b-col>
+                </b-row>
+                <b-row class="form-bottom">
+                    <b-col sm="4">
+                        <b-button type="submit" variant="success" size="md" :disabled="$v.$invalid"> <v-icon name="save"/> Save </b-button>
+                        <b-button variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
+                    </b-col>
+                </b-row>
+            </b-container>
+        </b-form>
     </div>
 </template>
 
@@ -101,7 +101,7 @@ export default {
                 imageUri: null,
                 description: null,
                 canBeEarnedWithPoints: false,
-                threshold: 0,
+                pointThreshold: 0,
             },
             selectedRole: {}
         }
@@ -125,7 +125,7 @@ export default {
                     minLength: minLength(10),
                     maxLength: maxLength(2048)
                 },
-                threshold: {
+                pointThreshold: {
                     requiredIf: requiredIf(function() {
                         return this.badge.canBeEarnedWithPoints
                     }),
@@ -144,7 +144,7 @@ export default {
         BContainer, BRow, BCol
     },
     created: function() {
-        //this.$store.dispatch('fetchBadges')
+        this.$store.dispatch('fetchBadges')
     },
     computed: {
         badgeIcon: function() {
@@ -159,9 +159,19 @@ export default {
     methods: {
         resetThreshold: function(checked) {
             if(!checked) {
-                this.badge.threshold = 0
+                this.badge.pointThreshold = 0
             }
-        }
+        },
+        submitBadge: function() {
+            this.$v.$touch()
+            if (this.$v.$anyError) {
+                return
+            }
+
+            this.badge.discordRoleId = this.selectedRole.id
+            this.$store.dispatch('addBadge', this.badge)
+            this.$router.push('dashboard')
+      }
     }
 }
 </script>
