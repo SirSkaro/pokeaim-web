@@ -114,10 +114,9 @@ export default {
             badge: {
                 title: {
                     required,
-                    unique: (newTitle, vm) =>  { 
-                        return !this.takenBadgeTitles
-                            .map(title => title.toLowerCase())
-                            .includes(newTitle.toLowerCase())
+                    unique: (newTitle) =>  { 
+                        return this.isTitleUnique(newTitle) 
+                            || (this.originalTitle ? newTitle == this.originalTitle : false)
                     }
                 },
                 imageUri: {
@@ -148,8 +147,14 @@ export default {
         BContainer, BRow, BCol
     },
     created: function() {
-        this.$store.dispatch('fetchBadges')
         this.$store.dispatch('fetchUnassignedRoles')
+        this.$store.dispatch('fetchBadges')
+            .then(() => {
+                if(this.id) {
+                    this.badge = JSON.parse(JSON.stringify(this.$store.getters.getBadge(this.id)));
+                    this.originalTitle = this.badge.title
+                }
+            })
     },
     computed: {
         badgeIcon: function() {
@@ -167,6 +172,11 @@ export default {
         }
     },
     methods: {
+        isTitleUnique: function(title) {
+            return !this.takenBadgeTitles
+                .map(title => title.toLowerCase())
+                .includes(title.toLowerCase())
+        },
         resetThreshold: function(checked) {
             if(!checked) {
                 this.badge.pointThreshold = 0
