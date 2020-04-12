@@ -17,9 +17,6 @@ export default {
   },
   components: {
     NavBar
-  },
-  created: function() {
-      this.$store.dispatch('createDiscordClient')
   }
 }
 </script>

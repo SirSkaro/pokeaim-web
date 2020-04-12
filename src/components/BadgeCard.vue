@@ -1,13 +1,13 @@
 <template>
-        <b-card class="content">
-            <b-card-title class="mb-2">{{title}}</b-card-title>
-            <b-card-img class="icon mb-3" :src="badge.imageUri"/>
-            <b-card-text class="mb-0">{{threshold}}</b-card-text>
-            <template v-slot:footer>
-                <b-button variant="primary"> <v-icon name="edit"/> </b-button> 
-                <b-button variant="info"> <v-icon name="eye"/> </b-button>
-            </template>
-        </b-card>
+    <b-card class="content">
+        <b-card-title class="mb-2">{{title}}</b-card-title>
+        <b-card-img class="icon mb-3" :src="badge.imageUri"/>
+        <b-card-text class="mb-0">{{threshold}}</b-card-text>
+        <template v-slot:footer>
+            <b-button variant="primary"> <v-icon name="edit"/> </b-button> 
+            <b-button variant="info"> <v-icon name="eye"/> </b-button>
+        </template>
+    </b-card>
 </template>
 
 <script>

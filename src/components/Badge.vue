@@ -15,7 +15,7 @@
                                 placeholder="Enter badge title">
                             </b-form-input>
                             <b-form-invalid-feedback id="badge-title-feedback">
-                                Badge title must be at least 5 characters
+                                Badge title must be unique
                             </b-form-invalid-feedback>
                         </b-form-group>
 
@@ -114,7 +114,11 @@ export default {
             badge: {
                 title: {
                     required,
-                    minLength: minLength(5)
+                    unique: (newTitle, vm) =>  { 
+                        return !this.takenBadgeTitles
+                            .map(title => title.toLowerCase())
+                            .includes(newTitle.toLowerCase())
+                    }
                 },
                 imageUri: {
                     required,
@@ -145,6 +149,7 @@ export default {
     },
     created: function() {
         this.$store.dispatch('fetchBadges')
+        this.$store.dispatch('fetchUnassignedRoles')
     },
     computed: {
         badgeIcon: function() {
@@ -154,6 +159,11 @@ export default {
         },
         unassignedRoles: function() {
             return this.$store.getters.getUnassignedRoles
+        },
+        takenBadgeTitles: function() {
+            let badges = this.$store.getters.getBadges
+            return Object.values(badges)
+                .map(badge => badge.title)
         }
     },
     methods: {
