@@ -189,7 +189,12 @@ export default {
             }
 
             this.badge.discordRoleId = this.selectedRole.id
-            this.$store.dispatch('addBadge', this.badge)
+            if(this.id) {
+                this.$store.dispatch('updateBadge', this.badge)
+            } else { 
+                this.$store.dispatch('addBadge', this.badge)
+            }
+
             this.$router.push('dashboard')
         }
     }

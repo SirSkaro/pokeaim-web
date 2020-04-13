@@ -48,7 +48,14 @@ export default new Vuex.Store({
     },
 
     addBadge({ commit }, badge ) {
-      axios.post(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge', badge)
+      return axios.post(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge', badge)
+        .then(badge => {
+          commit('setBadge', badge.data)
+        })
+    },
+
+    updateBadge({ commit }, badge ) {
+      return axios.put(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge/' + badge.id, badge)
         .then(badge => {
           commit('setBadge', badge.data)
         })
@@ -58,7 +65,7 @@ export default new Vuex.Store({
       let params = {
         filterReservedRoles: true
       }
-      axios.get(process.env.VUE_APP_DISCORD_BASE_URI + "/role", params)
+      return axios.get(process.env.VUE_APP_DISCORD_BASE_URI + "/role", {params: params})
         .then(roles => {
           commit('setUnassignedRoles', roles.data)
         })
