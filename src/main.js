@@ -19,7 +19,7 @@ Vue.component('v-icon', Icon)
 
 const router = new VueRouter({
   routes: [
-    {path: '/badge', component: Badge},
+    {path: '/badge/:id?', component: Badge, props: paramToInteger },
     {path: '/dashboard', component: BadgeList}
   ]
 })
@@ -29,3 +29,11 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+function paramToInteger(route) {
+  const id = Number.parseInt(route.params.id, 10)
+    if (Number.isNaN(id)) {
+      return 0
+    }
+    return { id }
+}

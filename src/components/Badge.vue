@@ -15,7 +15,7 @@
                                 placeholder="Enter badge title">
                             </b-form-input>
                             <b-form-invalid-feedback id="badge-title-feedback">
-                                Badge title must be at least 5 characters
+                                Badge title must be unique
                             </b-form-invalid-feedback>
                         </b-form-group>
 
@@ -30,15 +30,22 @@
                             </b-form-invalid-feedback>
                         </b-form-group>
 
-                        <b-form-group id="2" label="Description:" label-for="badge-description" label-cols-sm="2">
-                            <b-form-textarea required id="badge-description" 
-                                v-model="$v.badge.description.$model"
-                                :state="$v.badge.description.$dirty ? !$v.badge.description.$error : null"
-                                placeholder="Enter badge description">
-                            </b-form-textarea>
-                            <b-form-invalid-feedback id="badge-description-feedback">
-                                Badge description must be between 10 and 2048 characters
-                            </b-form-invalid-feedback>
+                        <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="2">
+                            <div v-if="this.isNew">
+                                <b-form-select id="discord-role" v-model="$v.selectedRole.$model"
+                                    :state="$v.selectedRole.$dirty ? !$v.selectedRole.$error : null">
+                                    <option :value="{}">Select a Discord Role to associate with this badge</option>
+                                    <option :value="role" v-for="role in unassignedRoles" v-bind:key="role.id"> {{role.name}} </option>
+                                </b-form-select>
+                                <b-form-invalid-feedback id="badge-description-feedback">
+                                    Please select a Discord Role
+                                </b-form-invalid-feedback>
+                            </div>
+                            <div v-else>
+                                {{this.selectedRole.name}}
+                                <span class="role-color-border" v-bind:style="{ backgroundColor: this.badgeColor}">&nbsp&nbsp&nbsp&nbsp</span>
+                                ({{this.selectedRole.id}})
+                            </div>    
                         </b-form-group>
 
                         <b-form-group id="3" label="Rewardability:" label-for="badge-rewardablity" label-cols-sm="2">
@@ -57,14 +64,14 @@
                             </b-form-invalid-feedback>
                         </b-form-group>
 
-                        <b-form-group id="4" label="Discord Role:" label-for="discord-role" label-cols-sm="2">
-                            <b-form-select id="discord-role" v-model="$v.selectedRole.$model"
-                                :state="$v.selectedRole.$dirty ? !$v.selectedRole.$error : null">
-                                <option :value="{}">Select a Discord Role to associate with this badge</option>
-                                <option :value="role" v-for="role in unassignedRoles" v-bind:key="role.id"> {{role.name}} </option>
-                            </b-form-select>
+                        <b-form-group id="2" label="Description:" label-for="badge-description" label-cols-sm="2">
+                            <b-form-textarea required id="badge-description" 
+                                v-model="$v.badge.description.$model"
+                                :state="$v.badge.description.$dirty ? !$v.badge.description.$error : null"
+                                placeholder="Enter badge description">
+                            </b-form-textarea>
                             <b-form-invalid-feedback id="badge-description-feedback">
-                                Please select a Discord Role
+                                Badge description must be between 10 and 2048 characters
                             </b-form-invalid-feedback>
                         </b-form-group>
                         
@@ -78,7 +85,7 @@
                 <b-row class="form-bottom">
                     <b-col sm="4">
                         <b-button type="submit" variant="success" size="md" :disabled="$v.$invalid"> <v-icon name="save"/> Save </b-button>
-                        <b-button to="dashboard" variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
+                        <b-button to="/dashboard" variant="secondary" size="md"> <v-icon name="undo"/> Cancel </b-button> 
                     </b-col>
                 </b-row>
             </b-container>
@@ -89,7 +96,7 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { BForm, BFormInput, BFormGroup, BFormCheckbox, BFormSelect } from 'bootstrap-vue'
-import { BContainer, BRow, BCol, BButton } from 'bootstrap-vue'
+import { BContainer, BRow, BCol, BButton, BBadge } from 'bootstrap-vue'
 import { required, minLength, maxLength, url, requiredIf, between } from 'vuelidate/lib/validators'
 export default {
     name: 'Badge',
@@ -114,7 +121,10 @@ export default {
             badge: {
                 title: {
                     required,
-                    minLength: minLength(5)
+                    unique: (newTitle) =>  { 
+                        return (!this.isNew && newTitle == this.originalTitle)
+                            || this.isTitleUnique(newTitle) 
+                    }
                 },
                 imageUri: {
                     required,
@@ -144,7 +154,13 @@ export default {
         BContainer, BRow, BCol
     },
     created: function() {
+        this.$store.dispatch('fetchUnassignedRoles')
         this.$store.dispatch('fetchBadges')
+            .then(() => {
+                if(!this.isNew) {
+                    this.fetchBadgeData()  
+                }
+            })
     },
     computed: {
         badgeIcon: function() {
@@ -154,11 +170,35 @@ export default {
         },
         unassignedRoles: function() {
             return this.$store.getters.getUnassignedRoles
+        },
+        takenBadgeTitles: function() {
+            let badges = this.$store.getters.getBadges
+            return Object.values(badges)
+                .map(badge => badge.title)
+        },
+        isNew: function() {
+            return !this.id
+        },
+        badgeColor: function() {
+            return this.selectedRole.color ? '#'+this.selectedRole.color.toString(16) : 'gray';
         }
     },
     methods: {
+        fetchBadgeData: function() {
+            this.badge = JSON.parse(JSON.stringify(this.$store.getters.getBadge(this.id)))
+            this.originalTitle = this.badge.title
+            return this.$store.dispatch('fetchRole', this.badge.discordRoleId)
+                .then((role) => {
+                    this.selectedRole = role.data
+                })
+        },
+        isTitleUnique: function(title) {
+            return !this.takenBadgeTitles
+                .map(title => title.toLowerCase())
+                .includes(title.toLowerCase())
+        },
         resetThreshold: function(checked) {
-            if(!checked) {
+            if(!checked && this.isNew) {
                 this.badge.pointThreshold = 0
             }
         },
@@ -170,7 +210,8 @@ export default {
 
             this.badge.discordRoleId = this.selectedRole.id
             this.$store.dispatch('addBadge', this.badge)
-            this.$router.push('dashboard')
+
+            this.$router.push('/dashboard')
         }
     }
 }
@@ -194,6 +235,10 @@ export default {
 .form-bottom {
     padding: 0px 0px 10px 0px;
     height: auto;
+}
+.role-color-border {
+    border-radius: 5px;
+    padding: 4px;
 }
 
 </style>
