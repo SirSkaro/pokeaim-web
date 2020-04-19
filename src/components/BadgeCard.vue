@@ -1,10 +1,10 @@
 <template>
     <b-card class="content">
-        <b-card-title class="mb-2">{{title}}</b-card-title>
+        <b-card-title class="mb-2">{{badge.title}}</b-card-title>
         <b-card-img class="icon mb-3" :src="badge.imageUri"/>
         <b-card-text class="mb-0">{{threshold}}</b-card-text>
         <template v-slot:footer>
-            <b-button variant="primary"> <v-icon name="edit"/> </b-button> 
+            <b-button :to="editUrl" variant="primary"> <v-icon name="edit"/> </b-button> 
             <b-button variant="info"> <v-icon name="eye"/> </b-button>
         </template>
     </b-card>
@@ -20,9 +20,8 @@ export default {
         badge: function() {
             return this.$store.getters.getBadge(this.id)
         },
-        title: function() {
-            let title = this.badge.title
-            return title.length <= 19 ? title : (title.substring(0,16) + "..." )
+        editUrl: function() {
+            return "/badge/"+this.badge.id
         },
         threshold: function() {
             if(this.badge.canBeEarnedWithPoints) {

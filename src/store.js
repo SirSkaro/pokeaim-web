@@ -55,6 +55,7 @@ export default new Vuex.Store({
     },
 
     updateBadge({ commit }, badge ) {
+      debugger;
       return axios.put(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge/' + badge.id, badge)
         .then(badge => {
           commit('setBadge', badge.data)
@@ -69,6 +70,10 @@ export default new Vuex.Store({
         .then(roles => {
           commit('setUnassignedRoles', roles.data)
         })
+    },
+
+    fetchRole({commit}, id) {
+      return axios.get(process.env.VUE_APP_DISCORD_BASE_URI + "/role/"+id)
     }
 
   }
