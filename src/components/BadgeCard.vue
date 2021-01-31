@@ -4,8 +4,9 @@
         <b-card-img class="icon mb-3" :src="badge.imageUri"/>
         <b-card-text class="mb-0">{{threshold}}</b-card-text>
         <template v-slot:footer>
-            <b-button :to="editUrl" variant="primary"> <v-icon name="edit"/> </b-button> 
             <b-button variant="info"> <v-icon name="eye"/> </b-button>
+            <b-button :to="editUrl" variant="primary"> <v-icon name="edit"/> </b-button> 
+            <b-button variant="danger" @click="deleteBadge(badge)"> <v-icon name="trash"/> </b-button>
         </template>
     </b-card>
 </template>
@@ -30,6 +31,11 @@ export default {
             } else {
                 return 'Reward Only'
             }
+        }
+    },
+    methods: {
+        deleteBadge: function(badge) {
+            this.$store.dispatch('deleteBadge', badge)
         }
     }
 }
