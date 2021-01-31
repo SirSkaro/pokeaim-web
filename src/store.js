@@ -34,6 +34,10 @@ export default new Vuex.Store({
       Vue.set(state.badges, badge.id, badge)
     },
 
+    deleteBadge: (state, badge) => {
+      Vue.delete(state.badges, badge.id)
+    },
+
     setUnassignedRoles: (state, roles) => {
       state.unassignedRoles = roles
     }
@@ -55,10 +59,16 @@ export default new Vuex.Store({
     },
 
     updateBadge({ commit }, badge ) {
-      debugger;
       return axios.put(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge/' + badge.id, badge)
         .then(badge => {
           commit('setBadge', badge.data)
+        })
+    },
+
+    deleteBadge({ commit }, badge) {
+      return axios.delete(process.env.VUE_APP_POKEAIMPI_BASE_URI + '/badge/' + badge.id)
+        .then(() => {
+          commit('deleteBadge', badge)
         })
     },
 
